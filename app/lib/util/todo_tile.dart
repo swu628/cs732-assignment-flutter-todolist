@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class ToDoTile extends StatelessWidget {
   final String taskName;
@@ -36,15 +37,17 @@ class ToDoTile extends StatelessWidget {
             ),
 
             // Task name
-            Text(
-              taskName,
-              style: TextStyle(
-                  decoration: taskCompleted
-                      ? TextDecoration.lineThrough
-                      : TextDecoration.none),
+            Flexible(
+              // Allows the text to occupy the remaining space
+              child: Text(
+                taskName,
+                style: TextStyle(
+                    decoration: taskCompleted
+                        ? TextDecoration.lineThrough
+                        : TextDecoration.none),
+                overflow: TextOverflow.ellipsis, // This will handle overflow
+              ),
             ),
-
-            Spacer(), // Put the delete icon to the right of the screen
 
             // Delete task
             IconButton(
