@@ -37,7 +37,7 @@ class ToDoTile extends StatelessWidget {
             ),
 
             // Task name
-            Flexible(
+            Expanded(
               // Allows the text to occupy the remaining space
               child: Text(
                 taskName,
@@ -54,6 +54,7 @@ class ToDoTile extends StatelessWidget {
               onPressed: () => deleteFunction
                   ?.call(context), // Call deleteFunction with context
               icon: Icon(Icons.close), // Wrap Icons.delete in an Icon widget
+              tooltip: 'Delete Task', // Provide a tooltip for delete icon
             ),
           ],
         ),
