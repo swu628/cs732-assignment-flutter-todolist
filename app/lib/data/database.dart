@@ -20,4 +20,15 @@ class ToDoDatabase {
   void updateDatabase() {
     _myBox.put("TODOLIST", toDoList);
   }
+
+    // Get the total count of tasks
+  int getTotalTasks() {
+    return toDoList.length;
+  }
+
+  // Get the count of tasks that are not completed
+  int getRemainingTasks() {
+    int remaining = toDoList.where((task) => task[1] == false).length;
+    return remaining;
+  }
 }

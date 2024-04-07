@@ -1,5 +1,6 @@
 import 'package:app/data/database.dart';
 import 'package:app/util/dialog_box.dart';
+import 'package:app/util/task_counter.dart';
 import 'package:app/util/todo_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -71,28 +72,45 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    int totalTasks = db.getTotalTasks();
+    int remainingTasks = db.getRemainingTasks();
+
     return Scaffold(
       backgroundColor: Colors.yellow[200],
       appBar: AppBar(
         title: Text('To Do'),
         backgroundColor: Colors.yellow,
       ),
+
       floatingActionButton: FloatingActionButton(
         onPressed: createNewTask,
         child: Icon(Icons.add),
         backgroundColor: Colors.yellow,
       ),
-      body: ListView.builder(
-        itemCount: db.toDoList.length,
-        itemBuilder: (context, index) {
-          return ToDoTile(
-            taskName: db.toDoList[index][0],
-            taskCompleted: db.toDoList[index][1],
-            onChanged: (value) => checkBoxChanged(value, index),
-            deleteFunction: (context) => deleteTask(index),
-          );
-        },
-      ),
+
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Use the TaskCounter widget here
+          TaskCounter(
+            totalTasks: totalTasks,
+            remainingTasks: remainingTasks,
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: db.toDoList.length,
+              itemBuilder: (context, index) {
+                return ToDoTile(
+                  taskName: db.toDoList[index][0],
+                  taskCompleted: db.toDoList[index][1],
+                  onChanged: (value) => checkBoxChanged(value, index),
+                  deleteFunction: (context) => deleteTask(index),
+                );
+              },
+            ),
+          ),
+        ],
+      )
     );
   }
 }
