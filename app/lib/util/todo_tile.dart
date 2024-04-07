@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class ToDoTile extends StatelessWidget {
   final String taskName;
   final bool taskCompleted;
+  final String? dueDate;
   Function(bool?)? onChanged;
   Function(BuildContext)? deleteFunction;
 
@@ -13,6 +13,7 @@ class ToDoTile extends StatelessWidget {
     required this.taskCompleted,
     required this.onChanged,
     required this.deleteFunction,
+    this.dueDate, // This allows the user to not set a due date
   });
 
   @override
@@ -25,37 +26,51 @@ class ToDoTile extends StatelessWidget {
           color: Colors.yellow,
           borderRadius: BorderRadius.circular(12),
         ),
-
-        // To have checkbox and task name on the same row
-        child: Row(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Checkbox
-            Checkbox(
-              value: taskCompleted,
-              onChanged: onChanged,
-              activeColor: Colors.black,
+            // To have checkbox and task name on the same row
+            Row(
+              children: [
+                // Checkbox
+                Checkbox(
+                  value: taskCompleted,
+                  onChanged: onChanged,
+                  activeColor: Colors.black,
+                ),
+
+                // Task name
+                // Allows the text to occupy the remaining space
+                Expanded(
+                  child: Text(
+                    taskName,
+                    style: TextStyle(
+                        decoration: taskCompleted
+                            ? TextDecoration.lineThrough
+                            : TextDecoration.none),
+                    overflow: TextOverflow.ellipsis, // Handle overflow
+                  ),
+                ),
+
+                // Delete task
+                IconButton(
+                  onPressed: () => deleteFunction?.call(context),
+                  icon: Icon(Icons.close),
+                  tooltip: 'Delete Task', // Provide a tooltip for delete icon
+                ),
+              ],
             ),
 
-            // Task name
-            Expanded(
-              // Allows the text to occupy the remaining space
-              child: Text(
-                taskName,
-                style: TextStyle(
-                    decoration: taskCompleted
-                        ? TextDecoration.lineThrough
-                        : TextDecoration.none),
-                overflow: TextOverflow.ellipsis, // This will handle overflow
+            // Display due date below the checkbox, taskname and delete icon
+            // Due date is only displayed when the user have set a due date
+            if (dueDate!.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(left: 15),
+                child: Text(
+                  "Due date: " + dueDate!,
+                  style: TextStyle(color: Colors.grey),
+                ),
               ),
-            ),
-
-            // Delete task
-            IconButton(
-              onPressed: () => deleteFunction
-                  ?.call(context), // Call deleteFunction with context
-              icon: Icon(Icons.close), // Wrap Icons.delete in an Icon widget
-              tooltip: 'Delete Task', // Provide a tooltip for delete icon
-            ),
           ],
         ),
       ),
