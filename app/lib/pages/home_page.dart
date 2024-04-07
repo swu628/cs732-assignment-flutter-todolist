@@ -44,6 +44,42 @@ class _HomePageState extends State<HomePage> {
   }
 
   void saveNewTask() {
+    if (_taskController.text.trim().isEmpty) {
+      // Show an alert dialog or a Snackbar if the task name is empty
+
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Theme(
+            data: ThemeData.light().copyWith(
+              colorScheme: ColorScheme.light(
+                // Change the header and button color to red theme
+                primary: Colors.red,
+              ),
+            ),
+            child: AlertDialog(
+              title: Text('Error'),
+              content: Container(
+                // Make the size responsive, 80% of screen width, 0.06% of screen height
+                width: MediaQuery.of(context).size.width * 0.5,
+                height: MediaQuery.of(context).size.height * 0.06,
+                child: Text('Task name cannot be empty.'),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('OK', style: TextStyle(color: Colors.black)),
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Close the dialog
+                  },
+                ),
+              ],
+            ),
+          );
+        },
+      );
+      return; // Return early to prevent saving an empty task
+    }
+
     setState(() {
       db.toDoList.add([_taskController.text, false, _dateController.text]);
       _taskController.clear();

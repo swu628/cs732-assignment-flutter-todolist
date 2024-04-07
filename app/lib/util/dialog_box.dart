@@ -44,7 +44,7 @@ class DialogBox extends StatelessWidget {
                   context: context,
                   initialDate: DateTime.now(),
                   firstDate: DateTime.now(),
-                  lastDate: DateTime(2101),
+                  lastDate: DateTime(2124),
                 );
                 if (pickedDate != null) {
                   TimeOfDay? pickedTime = await showTimePicker(
