@@ -16,6 +16,11 @@ class _HomePageState extends State<HomePage> {
   final _myBox = Hive.box('mybox');
   ToDoDatabase db = ToDoDatabase();
 
+  // Initialise number of tasks for each tab
+  int _totalTasks = 0;
+  int _remainingTasks = 0;
+  int _completedTasks = 0;
+
   @override
   void initState() {
     // If this is the first time ever opening the app, then create default data
@@ -27,6 +32,7 @@ class _HomePageState extends State<HomePage> {
     }
 
     super.initState();
+    _updateTaskCounts();
   }
 
   // Text controller
@@ -56,8 +62,10 @@ class _HomePageState extends State<HomePage> {
         db.toDoList[actualIndex][1] = value;
       }
     });
-    // Update the database when the user tapped on the checkbox of a task
+    // Update the database and number of tasks in each tab when the
+    // user tapped on the checkbox of a task
     db.updateDatabase();
+    _updateTaskCounts();
   }
 
   void saveNewTask() {
@@ -104,6 +112,7 @@ class _HomePageState extends State<HomePage> {
     });
     Navigator.of(context).pop(); // Close the dialog
     db.updateDatabase(); // Update the database when the user added a task
+    _updateTaskCounts(); // Update the number of tasks
   }
 
   void createNewTask() {
@@ -125,6 +134,15 @@ class _HomePageState extends State<HomePage> {
       db.toDoList.removeAt(index);
     });
     db.updateDatabase(); // Update the database when the user deletes a task
+    _updateTaskCounts(); // Update the number of tasks
+  }
+
+  void _updateTaskCounts() {
+    setState(() {
+      _totalTasks = db.getTotalTasks();
+      _remainingTasks = db.getRemainingTasks();
+      _completedTasks = _totalTasks - _remainingTasks;
+    });
   }
 
   @override
@@ -138,9 +156,13 @@ class _HomePageState extends State<HomePage> {
           title: Text('To Do Tasks'),
           bottom: TabBar(
             tabs: [
-              Tab(text: 'Total'),
-              Tab(text: 'Remaining'),
-              Tab(text: 'Completed'), // New tab for completed tasks
+              Tab(text: 'Total ($_totalTasks)', icon: Icon(Icons.list)),
+              Tab(
+                  text: 'Remaining($_remainingTasks)',
+                  icon: Icon(Icons.hourglass_empty)),
+              Tab(
+                  text: 'Completed($_completedTasks)',
+                  icon: Icon(Icons.done_all)),
             ],
           ),
         ),
@@ -158,6 +180,7 @@ class _HomePageState extends State<HomePage> {
           onPressed: createNewTask,
           child: Icon(Icons.add),
           backgroundColor: Colors.yellow,
+          tooltip: 'Add a task', // Provide a tooltip for adding button
         ),
       ),
     );

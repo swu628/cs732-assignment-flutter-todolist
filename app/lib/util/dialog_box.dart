@@ -20,6 +20,7 @@ class DialogBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: Colors.yellow[200],
+      elevation: 0,
       content: Container(
         height: 180,
         child: Column(
@@ -69,7 +70,7 @@ class DialogBox extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                MyButton(text: "Save", onPressed: onSave),
+                MyButton(text: "Add", onPressed: onSave),
                 const SizedBox(width: 8),
                 MyButton(text: "Cancel", onPressed: onCancel),
               ],

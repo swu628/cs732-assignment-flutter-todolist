@@ -64,7 +64,7 @@ class ToDoTile extends StatelessWidget {
                 IconButton(
                   onPressed: () => deleteFunction?.call(context),
                   icon: Icon(Icons.close),
-                  tooltip: 'Delete Task', // Provide a tooltip for delete icon
+                  tooltip: 'Delete task', // Provide a tooltip for delete icon
                 ),
               ],
             ),
