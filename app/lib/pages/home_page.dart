@@ -129,9 +129,24 @@ class _HomePageState extends State<HomePage> {
   }
 
 // This function will delete a task
-  void deleteTask(int index) {
+  void deleteTask(int index, bool allTasks, {bool remainingTasks = true}) {
     setState(() {
-      db.toDoList.removeAt(index);
+      if (allTasks) {
+        db.toDoList.removeAt(index);
+      } else {
+        // For the "Completed" or "Remaining" tabs, find the actual task first.
+        List filteredList;
+        if (remainingTasks) {
+          // Handle deletion from the "Remaining" tab
+          filteredList = db.toDoList.where((task) => !task[1]).toList();
+        } else {
+          // Handle deletion from the "Completed" tab
+          filteredList = db.toDoList.where((task) => task[1]).toList();
+        }
+
+        var actualTask = filteredList[index];
+        db.toDoList.removeWhere((task) => task == actualTask);
+      }
     });
     db.updateDatabase(); // Update the database when the user deletes a task
     _updateTaskCounts(); // Update the number of tasks
@@ -207,7 +222,8 @@ class _HomePageState extends State<HomePage> {
           dueDate: tasks[index][2],
           onChanged: (value) => checkBoxChanged(value, index, allTasks,
               remainingTasks: remainingTasks),
-          deleteFunction: (context) => deleteTask(index),
+          deleteFunction: (context) =>
+              deleteTask(index, allTasks, remainingTasks: remainingTasks),
         );
       },
     );
