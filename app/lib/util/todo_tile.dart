@@ -24,6 +24,14 @@ class ToDoTile extends StatelessWidget {
         padding: EdgeInsets.all(24),
         decoration: BoxDecoration(
           color: Colors.yellow,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.2),
+              spreadRadius: 2,
+              blurRadius: 4,
+              offset: Offset(0, 3),
+            ),
+          ],
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(

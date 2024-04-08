@@ -15,6 +15,10 @@ class MyButton extends StatelessWidget {
       onPressed: onPressed,
       child: Text(text),
       color: Colors.yellow,
+      // Use the shape property to define the border
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12), // Border corner radius
+      ),
     );
   }
 }
