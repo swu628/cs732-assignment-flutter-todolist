@@ -1,6 +1,5 @@
 import 'package:app/data/database.dart';
 import 'package:app/util/dialog_box.dart';
-import 'package:app/util/task_counter.dart';
 import 'package:app/util/todo_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -35,9 +34,17 @@ class _HomePageState extends State<HomePage> {
   final _dateController = TextEditingController();
 
   // This function is called when the checkbox is tapped
-  void checkBoxChanged(bool? value, int index) {
+  void checkBoxChanged(bool? value, int index, bool allTasks) {
     setState(() {
-      db.toDoList[index][1] = !db.toDoList[index][1];
+      if (allTasks) {
+        // Directly update the task since it's from the "Total" list
+        db.toDoList[index][1] = value;
+      } else {
+        // Find the task in the master list to update, as the index will differ
+        final task = db.toDoList.where((task) => !task[1]).toList()[index];
+        final masterIndex = db.toDoList.indexOf(task);
+        db.toDoList[masterIndex][1] = value;
+      }
     });
     // Update the database when the user tapped on the checkbox of a task
     db.updateDatabase();
@@ -112,14 +119,25 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    int totalTasks = db.getTotalTasks();
-    int remainingTasks = db.getRemainingTasks();
-
-    return Scaffold(
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
         backgroundColor: Colors.yellow[200],
         appBar: AppBar(
-          title: Text('To Do'),
           backgroundColor: Colors.yellow,
+          title: Text('To Do Tasks'),
+          bottom: TabBar(
+            tabs: [
+              Tab(text: 'Total'),
+              Tab(text: 'Remaining'),
+            ],
+          ),
+        ),
+        body: TabBarView(
+          children: [
+            _buildTaskListView(allTasks: true),
+            _buildTaskListView(allTasks: false),
+          ],
         ),
         // Below is the add new task feature
         floatingActionButton: FloatingActionButton(
@@ -127,30 +145,25 @@ class _HomePageState extends State<HomePage> {
           child: Icon(Icons.add),
           backgroundColor: Colors.yellow,
         ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Below display total and remaining tasks
-            TaskCounter(
-              totalTasks: totalTasks,
-              remainingTasks: remainingTasks,
-            ),
-            // Below display list of tasks
-            Expanded(
-              child: ListView.builder(
-                itemCount: db.toDoList.length,
-                itemBuilder: (context, index) {
-                  return ToDoTile(
-                    taskName: db.toDoList[index][0],
-                    taskCompleted: db.toDoList[index][1],
-                    dueDate: db.toDoList[index][2],
-                    onChanged: (value) => checkBoxChanged(value, index),
-                    deleteFunction: (context) => deleteTask(index),
-                  );
-                },
-              ),
-            ),
-          ],
-        ));
+      ),
+    );
+  }
+
+  Widget _buildTaskListView({required bool allTasks}) {
+    final tasks =
+        allTasks ? db.toDoList : db.toDoList.where((task) => !task[1]).toList();
+
+    return ListView.builder(
+      itemCount: tasks.length,
+      itemBuilder: (context, index) {
+        return ToDoTile(
+          taskName: tasks[index][0],
+          taskCompleted: tasks[index][1],
+          dueDate: tasks[index][2],
+          onChanged: (value) => checkBoxChanged(value, index, allTasks),
+          deleteFunction: (context) => deleteTask(index),
+        );
+      },
+    );
   }
 }

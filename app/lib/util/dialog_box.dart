@@ -29,15 +29,14 @@ class DialogBox extends StatelessWidget {
             TextField(
               controller: taskController,
               decoration: InputDecoration(
-                hintText: "Add a new task",
+                hintText: "Add a new task *",
               ),
             ),
 
             // Get user input for due date
             TextField(
               controller: dateController,
-              decoration:
-                  InputDecoration(hintText: "Select due date (optional)"),
+              decoration: InputDecoration(hintText: "Select due date"),
               readOnly: true, // Prevent keyboard from showing
               onTap: () async {
                 DateTime? pickedDate = await showDatePicker(
