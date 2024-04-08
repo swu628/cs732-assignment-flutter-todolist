@@ -34,16 +34,26 @@ class _HomePageState extends State<HomePage> {
   final _dateController = TextEditingController();
 
   // This function is called when the checkbox is tapped
-  void checkBoxChanged(bool? value, int index, bool allTasks) {
+  void checkBoxChanged(bool? value, int index, bool allTasks,
+      {bool remainingTasks = true}) {
     setState(() {
       if (allTasks) {
         // Directly update the task since it's from the "Total" list
         db.toDoList[index][1] = value;
       } else {
-        // Find the task in the master list to update, as the index will differ
-        final task = db.toDoList.where((task) => !task[1]).toList()[index];
-        final masterIndex = db.toDoList.indexOf(task);
-        db.toDoList[masterIndex][1] = value;
+        List filteredList;
+        if (remainingTasks) {
+          // Work with remaining tasks if it's from the "Remaining" tab
+          filteredList = db.toDoList.where((task) => !task[1]).toList();
+        } else {
+          // Work with completed tasks if it's from the "Completed" tab
+          filteredList = db.toDoList.where((task) => task[1]).toList();
+        }
+
+        // Find the actual task in the main list using a unique identifier
+        var actualTask = filteredList[index];
+        int actualIndex = db.toDoList.indexOf(actualTask);
+        db.toDoList[actualIndex][1] = value;
       }
     });
     // Update the database when the user tapped on the checkbox of a task
@@ -120,7 +130,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Scaffold(
         backgroundColor: Colors.yellow[200],
         appBar: AppBar(
@@ -130,13 +140,17 @@ class _HomePageState extends State<HomePage> {
             tabs: [
               Tab(text: 'Total'),
               Tab(text: 'Remaining'),
+              Tab(text: 'Completed'), // New tab for completed tasks
             ],
           ),
         ),
         body: TabBarView(
           children: [
             _buildTaskListView(allTasks: true),
-            _buildTaskListView(allTasks: false),
+            _buildTaskListView(allTasks: false, remainingTasks: true),
+            _buildTaskListView(
+                allTasks: false,
+                remainingTasks: false), // View for completed tasks
           ],
         ),
         // Below is the add new task feature
@@ -149,10 +163,18 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildTaskListView({required bool allTasks}) {
-    final tasks =
-        allTasks ? db.toDoList : db.toDoList.where((task) => !task[1]).toList();
-
+  Widget _buildTaskListView(
+      {required bool allTasks, bool remainingTasks = true}) {
+    List tasks;
+    if (allTasks) {
+      tasks = db.toDoList;
+    } else if (remainingTasks) {
+      // Filter for remaining tasks
+      tasks = db.toDoList.where((task) => !task[1]).toList();
+    } else {
+      // Filter for completed tasks
+      tasks = db.toDoList.where((task) => task[1]).toList();
+    }
     return ListView.builder(
       itemCount: tasks.length,
       itemBuilder: (context, index) {
@@ -160,7 +182,8 @@ class _HomePageState extends State<HomePage> {
           taskName: tasks[index][0],
           taskCompleted: tasks[index][1],
           dueDate: tasks[index][2],
-          onChanged: (value) => checkBoxChanged(value, index, allTasks),
+          onChanged: (value) => checkBoxChanged(value, index, allTasks,
+              remainingTasks: remainingTasks),
           deleteFunction: (context) => deleteTask(index),
         );
       },
