@@ -4,11 +4,11 @@
 This project is a To Do List mobile application developed using Flutter, enabling it to run on both Android and iOS devices. Parts of the project were constructed by following a tutorial by Mitch Koko on YouTube, which can be accessed [here](https://www.youtube.com/watch?v=HQ_ytw58tC4).
 
 The To Do List mobile app aims to provide users with ease of use with a simplistic user interface. It allowing users to...
-- [] Add a task by entering a task name (compulsory) and a due date. An error dialog will be displayed if the task name field is left empty
-- [] Tasks can be categorized and filtered into "Total," "Remaining," and "Completed" categories using the tab bar
-- [] Display number of tasks within each filter
-- [] Can mark a task as complete using a checkbox
-- [] Can delete a task
+* Add a task by entering a task name (compulsory) and a due date. An error dialog will be displayed if the task name field is left empty
+* Tasks can be categorized and filtered into "Total," "Remaining," and "Completed" categories using the tab bar
+* Display number of tasks within each filter
+* Can mark a task as complete using a checkbox
+* Can delete a task
 
 
 ## What is Flutter
@@ -65,22 +65,22 @@ If you run `flutter doctor` command in terminal, you will see that the status of
 
 ### Install Android Studio
 1. Install [Android Studio](https://developer.android.com/studio)
-2. Open Android Studio :arrow_right: go to `Plugins` => search "Flutter" => cick `Install` (also install Dart) 
-3. Go to `More Actions` => select `SDK Manager` => navigate to `Android SDK` => select `SDK Tools` option => install `Android SDK Command-line tools (latest)`
+2. Open Android Studio :arrow_right: go to `Plugins` :arrow_right: search "Flutter" :arrow_right: cick `Install` (also install Dart) 
+3. Go to `More Actions` :arrow_right: select `SDK Manager` :arrow_right: navigate to `Android SDK` :arrow_right: select `SDK Tools` option :arrow_right: install `Android SDK Command-line tools (latest)`
 4. Run `flutter doctor --android-licenses` to accept the licences
 
 If you run `flutter doctor`command again and sees green tick next to Android Studio as shown below then you can move on to install Xcode. If you still encounter error, try to look into the Issues to see if it could help.
 ![No Android Studio error](readme_images/no_androidstudio_error.png)
 
 > [!NOTE] 
-> If you faces an issue with Flutter does not find Android SDK when setting up Android Studio. Try navigating into Android studio => click    `More Actions` => click `SDK Manager` => go into `Android SDK` and copy your Android SDK Location (something like `/Users/name/Library/Android/sdk`) => paste below command into your terminal (remember to replace \<path-to-your-android-sdk-path> to your Android SDK location)
+> If you faces an issue with Flutter does not find Android SDK when setting up Android Studio. Try navigating into Android studio :arrow_right: click `More Actions` :arrow_right: click `SDK Manager` :arrow_right: go into `Android SDK` and copy your Android SDK Location (something like `/Users/name/Library/Android/sdk`) :arrow_right: paste below command into your terminal (remember to replace \<path-to-your-android-sdk-path> to your Android SDK location)
 > ```
 > flutter config --android-sdk "<path-to-your-android-sdk-path>"
 > ```
 
 ### Install Xcode
 1. Install [Xcode](https://developer.apple.com/xcode/resources/)
-2. Open Xcode => select `Settings` => select `location` tab => select version of Xcode in the `Command Line Tools` selector
+2. Open Xcode :arrow_right: select `Settings` :arrow_right: select `location` tab :arrow_right: select version of Xcode in the `Command Line Tools` selector
 3. Install cocoapods 
     ```
     sudo gem install cocoapods
@@ -90,11 +90,11 @@ Run `flutter doctor`, if everything shows in green like below, then your're all 
 
 ### Using Visual Studio Code (not needed but recommended)
 1. Install [Visual Studio Code](https://code.visualstudio.com/download)
-2. Open Visual Studio Code and install Flutter extension: click on `Extensions` tab => search for "Flutter" => click on `install`
+2. Open Visual Studio Code and install Flutter extension: click on `Extensions` tab :arrow_right: search for "Flutter" :arrow_right: click on `install`
 > [!TIP]
 > For your interest, if you want to create a Flutter project, you can use either the terminal or the command palette of Visual Studio Code...
-> * **Terminal:** Run `flutter crate <project-name>` to create a flutter app => your app has been crated!
-> * **Command palette of VS Code:** Press `Command + Shift + p` => type "flutter:" => click on `New Project` option => select the `Application` template => choose the location where you want to save your project => give a project name => your app has been created!
+> * **Terminal:** Run `flutter crate <project-name>` to create a flutter app :arrow_right: your app has been crated!
+> * **Command palette of VS Code:** Press `Command + Shift + p` :arrow_right: type "flutter:" :arrow_right: click on `New Project` option :arrow_right: select the `Application` template :arrow_right: choose the location where you want to save your project :arrow_right: give a project name :arrow_right: your app has been created!
 
 
 ## How to launch the To Do List mobile application
@@ -105,13 +105,13 @@ After the set up has been completed, follow the steps below to run the To Do Lis
     ```
 2. Can use either the terminal or the Visual Studio Code to launch the project...
     * **Terminal**
-        1. Launch either the iOS simulator `open -a Simulator` or the Andriod simulator (open Android Studio => click on `More Actions` => select `Virtual Device Manager` => then select the device)
+        1. Launch either the iOS simulator `open -a Simulator` or the Andriod simulator (open Android Studio :arrow_right: click on `More Actions` :arrow_right: select `Virtual Device Manager` :arrow_right: then select the device)
         2. Go into the application directory `cd cs732-assignment-swu628`
         3. Run the Flutter app `flutter run`
     * **VS Code**
         1. Open the cloned project
-        2. Select emluator: Press `Cmd+Shift+P` on keyboard for macOS or press `Ctrl+Shift+P` for Windows => choose `Flutter: Launch Emulator` => then choose either the iOS or the Andriod emulator
-        3. Launch the application by click on `Run` => then click `Run Without Debugging`
+        2. Select emluator: Press `Cmd+Shift+P` on keyboard for macOS or press `Ctrl+Shift+P` for Windows :arrow_right: choose `Flutter: Launch Emulator` :arrow_right: then choose either the iOS or the Andriod emulator
+        3. Launch the application by click on `Run` :arrow_right: then click `Run Without Debugging`
 
 After complete the steps above, you should be able to start adding a task!
 
