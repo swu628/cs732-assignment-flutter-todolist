@@ -114,3 +114,47 @@ After the set up has been completed, follow the steps below to run the To Do Lis
         3. Launch the application by click on `Run` => then click `Run Without Debugging`
 
 After complete the steps above, you should be able to start adding a task!
+
+
+## Functions explaining
+The app leverages the Hive package for local data storage. It's structured across several files and classes, with each part handling specific functionalities within the app. Here's an overview of the functions and classes within the project:
+
+### main() Function
+Initializes the Hive database.
+Runs the app with MyApp as the root widget.
+
+### MyApp Class
+A stateless widget that returns a MaterialApp widget.
+Sets the home screen of the app to HomePage.
+
+### HomePage Class
+A stateful widget that serves as the main screen of your app.
+Manages tabs for displaying total, remaining, and completed tasks.
+Implements functionalities to add, delete, and update tasks.
+
+### Functions in _HomePageState Class
+initState(): Initializes the state. It checks if it's the first app opening to create initial data or loads existing data.
+checkBoxChanged(): Handles changes to the checkbox state of each task, updating task completion status.
+saveNewTask(): Validates and saves a new task entered by the user.
+createNewTask(): Opens a dialog for entering a new task.
+deleteTask(): Deletes a task from the list.
+_updateTaskCounts(): Updates counters for total, remaining, and completed tasks.
+_buildTaskListView(): Builds the UI list view for displaying tasks based on the tab selected.
+
+### ToDoDatabase Class
+Manages the interaction with the Hive database for storing and retrieving tasks.
+createInitialData(): Initializes the data structure for storing tasks.
+loadData(): Loads tasks from the Hive database.
+updateDatabase(): Saves the current state of tasks back to the Hive database.
+getTotalTasks(), getRemainingTasks(): Utility functions for counting tasks.
+
+### DialogBox Class
+A stateless widget for the dialog box used to enter new tasks.
+Contains text fields for the task name and due date, along with Save and Cancel buttons.
+
+### MyButton Class
+A reusable button widget styled according to the app's theme.
+
+### ToDoTile Class
+A custom list tile widget that displays each task.
+Includes a checkbox to mark the task as completed, a text label for the task name, and an optional due date. Also provides a delete button for removing tasks.
