@@ -12,10 +12,9 @@ The To Do List mobile app aims to provide users with ease of use with a simplist
 
 
 ## What is Flutter
-Before diving into the specifics of the To Do List project, it's important to understand what Flutter is. Flutter uses the Dart programming language. It may be put simply that Flutter is a toolkit for building applications, it offers fundamental components called widgets that can be customize and combine to create a unique user interface.These widgets include elements such as buttons, icons, and text.
+Before diving into the specifics of the To Do List project, it's important to understand what Flutter is. Flutter is an open-source framework by Google that uses the Dart programming language. It may be put simply that Flutter is a toolkit for building applications, it offers fundamental components called widgets that can be customize and combine to create a unique user interface. These widgets include elements such as buttons, icons, and text.
 
-To get into deeper explaination of what is Flutter, the [Flutter official website](https://flutter.dev/) says "Flutter is an open-source framework by Google for building beautiful, natively compiled, multi-platform applications from a single codebase.". Natively compiled means that the app is written and compiled specifically for target operating system of a device like Android or iOS, which allowing the application to run more efficiently and with better performance. Multi-platform applications from a single codebase means the developers can build the app once and deploy it on various devices regardless of their operating system, which makes it convient to build a multi-platform application.  Thus, it means that the Flutter framework combines the efficiency of native development with the convenience of cross-platform development.
-
+Flutter allows the application to run more efficiently and with better performance. Also, it makes it convient to build a multi-platform application. This is because Flutter can build natively compiled application, which means that the app is written and compiled specifically for target operating system of a device like Android or iOS. Also, it can build multi-platform applications from a single codebase, which means the developers can build the app once and deploy it on various devices regardless of their operating system. You can view the [Flutter official website](https://flutter.dev/) for details.
 
 ## Compare Flutter with React
 React is a JavaScript library for building user interfaces developed by Facebook. The primary differences to Flutter include:
@@ -119,42 +118,64 @@ After complete the steps above, you should be able to start adding a task!
 ## Functions explaining
 The app leverages the Hive package for local data storage. It's structured across several files and classes, with each part handling specific functionalities within the app. Here's an overview of the functions and classes within the project:
 
-### main() Function
-Initializes the Hive database.
-Runs the app with MyApp as the root widget.
 
-### MyApp Class
-A stateless widget that returns a MaterialApp widget.
-Sets the home screen of the app to HomePage.
+### main() Function
+
+The `main()` function inside the `main.dart` file is where the Flutter apps get started. It calls the runApp() method to run the app with the `MyApp` widget. Within `MyApp`, you can nest and arrange widgets to adjust the UI as you want.⁤⁤ This is different to an React web page, wherev it starts from the `index.js` file, and the `ReactDOM.render()` function in use to mount the root component (generally `App.jsx`) into the DOM. 
+
+As a part of my implementation, the Hive database is used in order to store the local data, this step is not mandatory and can be skipped if your application does not need data storage. The `MyApp` widget first return the `MaterialApp` widget, which is a material library that consists of commonly-used widgets for Material Design application. Finally, the `HomePage` class inside the `home_page.dart` file is set as the home screen of the app. This makes the coding environment well-ordered and neat as the crucially UI elements like the task list and tabbar will be included inside that file.
+
 
 ### HomePage Class
-A stateful widget that serves as the main screen of your app.
-Manages tabs for displaying total, remaining, and completed tasks.
-Implements functionalities to add, delete, and update tasks.
+The HomePage class can be divided into two parts, the logic of the flow of the app and the user interface of the home page.
 
-### Functions in _HomePageState Class
+The HomePage class consists of serveral functions...
 initState(): Initializes the state. It checks if it's the first app opening to create initial data or loads existing data.
 checkBoxChanged(): Handles changes to the checkbox state of each task, updating task completion status.
 saveNewTask(): Validates and saves a new task entered by the user.
 createNewTask(): Opens a dialog for entering a new task.
 deleteTask(): Deletes a task from the list.
 _updateTaskCounts(): Updates counters for total, remaining, and completed tasks.
-_buildTaskListView(): Builds the UI list view for displaying tasks based on the tab selected.
+
+The UI is inside the `build` function:
+Firstly its outerest widgets is a `DefaultTabController` widget, which manages the selection and animation of tabs. It controls the interaction between the TabBar (which displays the tabs, total, remaining and completed) and the TabBarView (which displays the content of the selected tab). The length has been used to specifies that there are total of three tabs managed by the TabController. 
+
+The `DefaultTabController` widget has a child widget of a `Scaffold`. The child property in a Flutter widget is used to embed one single widget inside another widget. A `Scaffold` widget includes an AppBar, a body and a floating action buttons.
+
+The `AppBar` appears at the top of the screen, it has been set to have a backgroundColor of yellow, a title of 'To Do Tasks' and the `bottom: TabBar` integrates a TabBar into the AppBar, which provides a tabbed interface at the bottom of the AppBar. Each tabs has a text and an icon.
+
+The `TabBarView` contains the content for each tab. It contains a total of three since I have three tabs. Each child is generated by calling _buildTaskListView, passing parameters to determine which tasks to show (all, remaining, or completed).
+
+The `FloatingActionButton` is positioned in the bottom right corner as default and it is used for adding new tasks. It setted to have a plus icon and a tooltip of 'Add a task'.
+
+The `_buildTaskListView()` display the list of tasks based on the tab selected. If `allTasks` is true, then all the tasks will be shown. If `remainingTasks` is true, then not completed tasks will be shown... The list is dynamically built using ListView.builder.  `itemCount` sets the number of items in the list. For each item, it returns a ToDoTile widget configured with the task details (name, completion status, due date). Each ToDoTile has callbacks for changes (onChanged) and deletion (deleteFunction), which call the respective methods to update the application state.
+
 
 ### ToDoDatabase Class
-Manages the interaction with the Hive database for storing and retrieving tasks.
+This class is used to manage the interaction with the Hive database for storing and retrieving tasks.
 createInitialData(): Initializes the data structure for storing tasks.
 loadData(): Loads tasks from the Hive database.
 updateDatabase(): Saves the current state of tasks back to the Hive database.
 getTotalTasks(), getRemainingTasks(): Utility functions for counting tasks.
 
-### DialogBox Class
-A stateless widget for the dialog box used to enter new tasks.
-Contains text fields for the task name and due date, along with Save and Cancel buttons.
-
-### MyButton Class
-A reusable button widget styled according to the app's theme.
 
 ### ToDoTile Class
-A custom list tile widget that displays each task.
-Includes a checkbox to mark the task as completed, a text label for the task name, and an optional due date. Also provides a delete button for removing tasks.
+Firstly, the widget defines several properties that are passed in through its constructor. The `String?` means the property can be null if no data is set. Then, in the constructor, the parameters with required denoting means these parameters must be provided when creating the ToDoTile widget. Since I have setted that the due date is not compulsory when creating a task, the `dueDate` parameter does not have the required denoted. Finally, the build method is where the UI of the widget is defined. It returns a `Padding` widget that adds space around the `Container` widget that holds the task details. 
+Use `Row` to stack the checkbox, task name, and delete icon in a row. 
+* Checkbox: Toggles the completion status of the task.
+* Text: Displays the task name. If the task is completed, the text is struck through.
+* IconButton: Provides a button with an icon to delete the task. The button uses a tooltip to enhance UX by explaining its function.
+
+Then the Row widget is wrapped with the Column together with the Due date display into a Column. 
+* Due Date Display: If a due date is set `if (dueDate!.isNotEmpty)`, it will be displayed below the task name and checkbox, otherwise it will not be displayed.
+
+
+### DialogBox Class
+This class is will show a dialog box used to enter new tasks. Again, similar to the `ToDoTile` class, it defines serveral properties and passed in through its constructor. The build method returns an `AlertDialog`, which is used to display the dialog box. The dialog box has been set to have a background colour of yellow, and no shadow. It then contains a `Column` widget that organizes its children vertically. The children includes a text field for task name, a text field for due date and a row of buttons.
+* Text field for task name: Allows the user to input the task name.
+* Text field for due date: Configured as read only to prevent the keyboard from appearing because the input will be set via a date picker. When the text field is tapped, it will triggers a date and a time picker dialogs that allows users to select a date and a time. The selected date and time are then formatted and set as the text of the dateController.
+* Row of buttons: Buttons for "Add" and "Cancel"
+
+
+### MyButton Class
+This class is used as a reusable button widget. The build function returns a `MaterialButton`, which is a pre-styled button widget provided by Flutter’s material library. Inside `MaterialButton`, it has a onPressed widget which determines what action to take when the user taps the button. It has a child which the content, which is the text displayed inside the button is being customised here. Then the background colour is set the yellow and the `shape` defines the shape of the button’s border with a borderRadius of 12 to make the button edges rounded.
