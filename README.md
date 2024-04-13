@@ -17,17 +17,6 @@ Before diving into the specifics of the To Do List project, it's important to un
 
 Flutter allows the application to run more efficiently and with better performance. Also, it makes it convient to build a multi-platform application. This is because Flutter can build natively compiled application, which means that the app is written and compiled specifically for target operating system of a device like Android or iOS. Also, it can build multi-platform applications from a single codebase, which means the developers can build the app once and deploy it on various devices regardless of their operating system. You can view the [Flutter official website](https://flutter.dev/) for details.
 
-## Compare Flutter with React
-React is a JavaScript library for building user interfaces developed by Facebook. The primary differences to Flutter include:
-
-* Programming Language: React uses JSX, a syntax extension that allow developers to write HTML structures in the same file as JavaScript code to create the UI, whereas the Flutter uses the Dart programming language.
-* UI Components: Unlike Flutter that have built-in UI widgets, React constructs the UI using HTML elements and relies on third-party libraries like Material-UI, React Bootstrap, or Ant Design for more complicated components.
-* Architecture: React is component-based architecture, means it enabling reusable of UI component. Whereas Flutter is a widget-based architecture.
-
-Whether to choose React or Flutter for developement depends on the project specifications and target platforms. React is preferable for responsive web application development, whereas Flutter excels in projects aiming for consistent UI and high performance across multiple platforms.
-
-If you want to navigate to a React web application to compare React and Flutter, you can have a look into the "react-todo-list" open source project on GitHub created "groundberry" by click [here](https://github.com/groundberry/react-todo-list). The author also uses a date picker did not used third-party library, instead, it is achieved using the native HTML element `<input type="date">`. For other UI elements, the implementation also rely on basic React patterns and HTML elements. 
-
 
 ## Getting Started
 Before you can launch the To Do List mobile application, you will need to install below tools...
@@ -122,7 +111,7 @@ The app leverages the Hive package for local data storage. It's structured acros
 
 ### `main.dart`
 
-The `main()` function inside the `main.dart` file is where the Flutter apps get started. It calls the runApp() method to run the app with the `MyApp` widget. Within `MyApp`, you can nest and arrange widgets to adjust the UI as you want.⁤⁤ This is different to an React web page, wherev it starts from the `index.js` file, and the `ReactDOM.render()` function in use to mount the root component (generally `App.jsx`) into the DOM. 
+The `main()` function inside the `main.dart` file is where the Flutter apps get started. It calls the runApp() method to run the app with the `MyApp` widget. Within `MyApp`, you can nest and arrange widgets to adjust the UI as you want.⁤⁤ 
 
 As a part of my implementation, the Hive database is used in order to store the local data, this step is not mandatory and can be skipped if your application does not need data storage. The `MyApp` widget first return the `MaterialApp` widget, which is a material library that consists of commonly-used widgets for Material Design application. Finally, the `HomePage` class inside the `home_page.dart` file is set as the home screen of the app. This makes the coding environment well-ordered and neat as the crucially UI elements like the task list and tabbar will be included inside that file.
 
@@ -186,3 +175,19 @@ Again, similar to the `ToDoTile` class, it has serveral properties and a constru
 This class is used as a reusable button widget. 
 
 The `build` function returns a `MaterialButton`, which is a pre-styled button widget provided by Flutter’s material library. Inside `MaterialButton`, it has a `onPressed` widget which determines what action to take when the user taps the button. It has a `child`, which displayed the text inside the button. Then the background colour is set the yellow and the `shape` defines the shape of the button’s border with a borderRadius of 12 to make the button edges rounded.
+
+
+## Compare Flutter with React
+React is a JavaScript library for building user interfaces developed by Facebook. The primary differences to Flutter include:
+
+* Programming Language: React uses JSX, a syntax extension that allow developers to write HTML structures in the same file as JavaScript code to create the UI, whereas the Flutter uses the Dart programming language.
+* UI Components: Unlike Flutter that have built-in UI widgets, React constructs the UI using HTML elements and relies on third-party libraries like Material-UI, React Bootstrap, or Ant Design for more complicated components.
+* Architecture: React is component-based architecture, means it enabling reusable of UI component. Whereas Flutter is a widget-based architecture.
+
+Whether to choose React or Flutter for developement depends on the project specifications and target platforms. React is preferable for responsive web application development, whereas Flutter excels in projects aiming for consistent UI and high performance across multiple platforms.
+
+If you want to navigate to a React web application to compare React and Flutter, you can have a look into the "react-todo-list" open source project on GitHub created "groundberry" by click [here](https://github.com/groundberry/react-todo-list). 
+
+This shows that the starting point for an React web page is different to the Flutter app. Where it starts from the `index.js` file, and the `ReactDOM.render()` function in use to mount the root component (generally `App.jsx`) into the DOM. 
+
+Also, the author uses a date picker using the native [HTML element](https://www.w3schools.com/tags/att_input_type_date.asp#:~:text=The%20%3Cinput%20type%3D%22date,year%2C%20month%2C%20and%20day.) `<input type="date">`. Another way to achieve the date picker is by using a third party library, here is an example of using [Material UI](https://mui.com/x/react-date-pickers/date-picker/) for the date picker. This is contrast to Flutter where the [date picker is built-in](https://api.flutter.dev/flutter/material/showDatePicker.html).
