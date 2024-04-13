@@ -9,7 +9,10 @@ The To Do List mobile app aims to provide users with ease of use with a simplist
 * Display number of tasks within each filter
 * Can mark a task as complete using a checkbox
 * Can delete a task
-
+![Home page](readme_images/homepage.png)
+![Add a task](readme_images/dialogbox.png)
+![Pick a date](readme_images/datepicker.png)
+![Error message when task name is empty](readme_images/alertbox.png)
 
 ## What is Flutter
 Before diving into the specifics of the To Do List project, it's important to understand what Flutter is. Flutter is an open-source framework by Google that uses the Dart programming language. It may be put simply that Flutter is a toolkit for building applications, it offers fundamental components called widgets that can be customize and combine to create a unique user interface. These widgets include elements such as buttons, icons, and text.
