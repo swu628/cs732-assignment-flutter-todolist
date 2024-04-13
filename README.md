@@ -21,11 +21,11 @@ React is a JavaScript library for building user interfaces developed by Facebook
 
 * Programming Language: React uses JSX, a syntax extension that allow developers to write HTML structures in the same file as JavaScript code to create the UI, whereas the Flutter uses the Dart programming language.
 * UI Components: Unlike Flutter that have built-in UI widgets, React constructs the UI using HTML elements and relies on third-party libraries like Material-UI, React Bootstrap, or Ant Design for more complicated components.
-* Architecture: React is component-based architecture, means it enabling reusable of UI component. Whereas Flutter is a widget-based architecture that is ideal for crafting aesthetically pleasing cross-platform mobile applications.
+* Architecture: React is component-based architecture, means it enabling reusable of UI component. Whereas Flutter is a widget-based architecture.
 
 Whether to choose React or Flutter for developement depends on the project specifications and target platforms. React is preferable for responsive web application development, whereas Flutter excels in projects aiming for consistent UI and high performance across multiple platforms.
 
-For your interest, if you want to navigate to a React web application to compare React and Flutter, you can have a look into the "react-todo-list" open source project on GitHub created "groundberry" by click [here](https://github.com/groundberry/react-todo-list). The author also uses a date picker did not used third-party library, instead, it is achieved using the native HTML element `<input type="date">`. For other UI elements, the implementation also rely on basic React patterns and HTML elements. 
+If you want to navigate to a React web application to compare React and Flutter, you can have a look into the "react-todo-list" open source project on GitHub created "groundberry" by click [here](https://github.com/groundberry/react-todo-list). The author also uses a date picker did not used third-party library, instead, it is achieved using the native HTML element `<input type="date">`. For other UI elements, the implementation also rely on basic React patterns and HTML elements. 
 
 
 ## Getting Started
@@ -173,7 +173,7 @@ Then the `Row` widget together with the `dueDate` is wrapped by a `Column` widge
 
 
 ### `dialog_box.dart`
-This class is will show a dialog box, which allow the users to enter a new task. 
+This class will show a dialog box, which allow the users to enter a new task. 
 
 Again, similar to the `ToDoTile` class, it has serveral properties and a constructor. The `build` method returns an `AlertDialog`, which is used to display the dialog box. The dialog box has been set to have a background colour of yellow, and no shadow. It then contains a `Column` widget that organizes its children vertically. The children includes a text field for task name, a text field for due date and a row of buttons.
 * Text field for task name: Allows the user to input the task name.
